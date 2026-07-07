@@ -1,0 +1,44 @@
+services:
+  spark-master:
+    image: apache/spark:latest
+    container_name: spark-master
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
+    environment:
+      - SPARK_MODE=master
+    ports:
+      - "8080:8080"
+      - "7077:7077"
+    volumes:
+      - ./spark:/opt/spark-app
+      - ./data:/opt/spark-app/data
+    networks:
+      - spark-net
+
+  spark-worker:
+    image: apache/spark:latest
+    container_name: spark-worker
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+    depends_on:
+      - spark-master
+    volumes:
+      - ./spark:/opt/spark-app
+      - ./data:/opt/spark-app/data
+    networks:
+      - spark-net
+
+  mongodb:
+    image: mongo:6
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - spark-net
+
+networks:
+  spark-net:
+    driver: bridge
+
+volumes:
+  mongo_data:

@@ -1,0 +1,9 @@
+Flask
+flask-cors
+flask-mysqldb
+python-dotenv
+requests
+bcrypt
+cryptography
+dnspython
+reportlab

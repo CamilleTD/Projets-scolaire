@@ -1,0 +1,6 @@
+report_id,report_date,drug_name,drug_class,adverse_event,severity,outcome,age_group,country,manufacturer,source_type,seriousness_score
+R0041,2024-05-01,Warfarin,Anticoagulant,Hemorrhage,Critical,Hospitalized,Senior,France,PharmaC,Hospital,10
+R0042,2024-05-02,Metformin,Antidiabetic,Nausea,Mild,Recovered,Adult,Spain,PharmaA,Pharmacy,2
+R0043,2024-05-03,Ibuprofen,NSAID,Gastrointestinal Bleeding,Severe,Hospitalized,Senior,UK,PharmaB,Hospital,9
+R0044,2024-05-04,Atorvastatin,Statin,Liver Dysfunction,Critical,Death,Adult,Germany,PharmaD,Hospital,10
+R0045,2024-05-05,Amoxicillin,Antibiotic,Allergic Reaction,Severe,Hospitalized,Child,Italy,PharmaE,Physician,8

@@ -1,0 +1,38 @@
+Démarrage
+--------------
+Note : le dataset adverse_events.csv (40 lignes) est volontairement réduit pour
+faciliter les tests et la démonstration en live (cf. consigne du sujet : "reduce
+the dataset size if necessary for testing purposes"). Tous les résultats chiffrés
+du rapport (rangs, risk_score, etc.) sont calculés sur ce jeu de données.
+
+docker-compose up -d
+docker ps   
+
+Installation des dépendances 
+------------------------------------------------
+docker exec -it -u root spark-master pip install pymongo
+docker exec -it -u root spark-master pip install pandas
+
+Analyses Spark + stockage MongoDB 
+---------------------------------------------------
+docker exec -it spark-master /opt/spark/bin/spark-submit /opt/spark-app/main.py
+
+Vérifier MongoDB
+---------------------
+docker exec -it mongodb mongosh --eval "db.getSiblingDB('pharmacovigilance').top_drugs.find().pretty()"
+docker exec -it mongodb mongosh --eval "db.getSiblingDB('pharmacovigilance').risk_scores.find().pretty()"
+docker exec -it mongodb mongosh --eval "db.getSiblingDB('pharmacovigilance').hospitalizations.find().pretty()"
+
+Bonus Streaming (2 terminaux séparés)
+------------------------------------------
+
+# Terminal 1 — lancer le streaming :
+docker exec -it spark-master mkdir -p /opt/spark-app/data/stream
+docker exec -it spark-master /opt/spark/bin/spark-submit /opt/spark-app/streaming.py
+
+# Terminal 2 — injecter un fichier pour déclencher le traitement :
+docker cp ./data/new_reports.csv spark-master:/opt/spark-app/data/stream/new_reports.csv
+
+Arrêt 
+-----------------
+docker-compose down
